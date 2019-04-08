@@ -651,15 +651,14 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose-schema-extend@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/mongoose-schema-extend/-/mongoose-schema-extend-0.2.2.tgz#f63dd313c422a3871f5569e36b0d28ca1a224631"
-  integrity sha1-9j3TE8Qio4cfVWnjaw0oyhoiRjE=
+"mongoose-schema-extend@git+https://github.com/kennylmay/mongoose-schema-extend.git#0f3c73eb5d4cd6b8469c8060f8b23a984751cf09":
+  version "0.2.3"
+  resolved "git+https://github.com/kennylmay/mongoose-schema-extend.git#0f3c73eb5d4cd6b8469c8060f8b23a984751cf09"
   dependencies:
     harmony-reflect "^1.4.2"
-    owl-deepcopy "~0.0.1"
+    lodash "^4.17.10"
 
-mongoose-times@^0.1.0:
+mongoose-times@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/mongoose-times/-/mongoose-times-0.1.0.tgz#6c1915b53db79337ebb66b8c2e760ebc9e700390"
   integrity sha1-bBkVtT23kzfrtmuMLnYOvJ5wA5A=
@@ -796,11 +795,6 @@ os-locale@^3.0.0, os-locale@^3.1.0:
     execa "^1.0.0"
     lcid "^2.0.0"
     mem "^4.0.0"
-
-owl-deepcopy@~0.0.1:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/owl-deepcopy/-/owl-deepcopy-0.0.6.tgz#e61c6934af0a38c255be95e5c7ee3fa8facaace3"
-  integrity sha1-5hxpNK8KOMJVvpXlx+4/qPrKrOM=
 
 p-defer@^1.0.0:
   version "1.0.0"
