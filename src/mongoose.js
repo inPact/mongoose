@@ -32,13 +32,13 @@ class DB {
             ? parseInt(process.env.POOL_SIZE)
             : _.get(config, 'db.poolSize', DEFAULT_POOL_SIZE);
 
-        this.operational = this.setupConnection(
-            config.dbOperational,
-            {
-                server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
-                replset: { poolSize: poolSize }
-            },
-            'operational');
+        // this.operational = this.setupConnection(
+        //     config.dbOperational,
+        //     {
+        //         server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
+        //         replset: { poolSize: poolSize }
+        //     },
+        //     'operational');
 
         // var analyticsPoolSize = process.env.ANALYTICS_POOL_SIZE ? parseInt(process.env.ANALYTICS_POOL_SIZE) : DEFAULT_POOL_SIZE;
         // this.analytics = this.setupConnection(
@@ -61,14 +61,18 @@ class DB {
         return createdModels;
     }
 
-    setupConnection(mongoUri, options, name) {
-        name = name ? name + ' ' : '';
+    setupConnection(mongoUri, name, options = {}) {
+        let poolSize = process.env.POOL_SIZE
+            ? parseInt(process.env.POOL_SIZE)
+            : DEFAULT_POOL_SIZE;
+
         options = options || {
-            server: { poolSize: DEFAULT_POOL_SIZE },
+            server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
             replset: { poolSize: DEFAULT_POOL_SIZE }
         };
 
-        var connection = mongoose.createConnection(mongoUri, options);
+        let connection = mongoose.createConnection(mongoUri, options);
+        name = name ? name + ' ' : '';
 
         connection.on('error', function (error) {
             logger.error(chalk.bold.red(`Failed to connect to ${name}DB`, error));

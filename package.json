@@ -14,8 +14,9 @@
   "name": "@tabit/mongoose",
   "description": "wrapper for mongoose, including various non-business plugins",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "devDependencies": {
+    "chai": "^4.2.0",
     "mocha": "^6.1.1"
   },
   "scripts": {
