@@ -13,7 +13,7 @@
   },
   "name": "@tabit/mongoose",
   "description": "wrapper for mongoose, including various non-business plugins",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "main": "src/index.js",
   "devDependencies": {
     "chai": "^4.2.0",
@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/inPact/mongoose/issues"
   },
-  "homepage": "https://github.com/inPact/mongoose#readme"
+  "homepage": "https://github.com/inPact/mongoose#readme",
+  "directories": {
+    "test": "test"
+  }
 }

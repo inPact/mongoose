@@ -2,12 +2,9 @@ const _ = require('@tabit/utils').moredash;
 const logger = require('winston');
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
-const timestamps = require('mongoose-times');
 const chalk = require('chalk');
 const debug = require('debug')('infra:db');
 
-const config = require('./index');
-const ttl = require('./plugins/ttl_plugin');
 const ChildModels = require('./child_models');
 const ChildModelDirectory = require('./child_model_directory');
 const SchemaDescriptionBuilder = require('./schema_decriptor_builder');
@@ -28,32 +25,11 @@ class DB {
         mongoose.set('objectIdGetter', false);
         mongoose.set('useCreateIndex', true);
 
-        let poolSize = process.env.POOL_SIZE
-            ? parseInt(process.env.POOL_SIZE)
-            : _.get(config, 'db.poolSize', DEFAULT_POOL_SIZE);
-
-        // this.operational = this.setupConnection(
-        //     config.dbOperational,
-        //     {
-        //         server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
-        //         replset: { poolSize: poolSize }
-        //     },
-        //     'operational');
-
-        // var analyticsPoolSize = process.env.ANALYTICS_POOL_SIZE ? parseInt(process.env.ANALYTICS_POOL_SIZE) : DEFAULT_POOL_SIZE;
-        // this.analytics = this.setupConnection(
-        //     config.dbAnalytics,
-        //     {
-        //         server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
-        //         replset: { poolSize: analyticsPoolSize },
-        //         // TODO: remove readPreference once version (expected ~4.11.0) is rolled out
-        //         db: { readPreference: 'secondaryPreferred' }
-        //     },
-        //     'analytics');
-
         this.plugins = {
-            ttl: ttl,
-            timestamp: timestamps
+            ttl: require('./plugins/ttl_plugin'),
+            timestamp: require('mongoose-times'),
+            hide: require('./plugins/hide_plugin'),
+            deactivate: require('./plugins/deactivate_plugin'),
         };
     }
 
