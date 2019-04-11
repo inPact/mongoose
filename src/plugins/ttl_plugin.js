@@ -5,8 +5,11 @@ const ms = require('ms');
 const defaultTtlMs = 1000 * 60 * 60 * 24;
 
 function plugin(schema, options) {
+    if (_.isString(options) || (typeof (options) === 'number'))
+        options = { defaultTtl: options };
+
     let defaultTtl = (options && options.defaultTtl) || defaultTtlMs;
-    let ttlMs = (typeof(defaultTtl) === 'number') ? defaultTtl : ms(defaultTtl);
+    let ttlMs = (typeof (defaultTtl) === 'number') ? defaultTtl : ms(defaultTtl);
     schema.add({
         expiresAt: {
             type: Date,
@@ -34,7 +37,7 @@ function plugin(schema, options) {
 }
 
 function toExpirationDate(expiration) {
-    if (typeof(expiration) === 'number')
+    if (typeof (expiration) === 'number')
         return new Date(new Date().valueOf() + expiration);
 
     let expirationMs = ms(expiration);
