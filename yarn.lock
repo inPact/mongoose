@@ -2,29 +2,15 @@
 # yarn lockfile v1
 
 
-"@tabit/utils@../utils":
+"@tabit/utils@^1.1.0":
   version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@tabit/utils/-/utils-1.1.0.tgz#c4e778e7cfbaac7d7de7230c06a2aa41bdd96a73"
+  integrity sha512-xcp/348BaXVITqWlbYFiMOn87r2ML3KWF7DfdedB+AbfL5nzQ2sKjeHIBZ5mYS6M3NPFE2xAVIr9EC6DJtpTJg==
   dependencies:
     async-lock "0.3.9"
     bluebird "3.5.0"
     debug "^4.1.1"
     lodash "^4.17.11"
-    mocha "^6.0.2"
-    moment-timezone "0.5.17"
-    mongoose "5.3.1"
-    ms "^0.7.2"
-    randomstring "^1.1.5"
-    winston "1.0.2"
-
-"@tabit/utils@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@tabit/utils/-/utils-1.0.6.tgz#963eadb67d6fd5ec814baae1deaf7919c03a3c88"
-  integrity sha512-cwDAMKU2KM2RyegS+smFpXuW/XxdcFzFyYFdx7OL0xvFWRsoY3cRziEG4Y2KZMJjscK2Li5pvZ0/GNn2Zu0oJg==
-  dependencies:
-    async-lock "0.3.9"
-    bluebird "3.5.0"
-    debug "^4.1.1"
-    lodash "3.10.1"
     mocha "^6.0.2"
     moment-timezone "0.5.17"
     mongoose "5.3.1"
@@ -518,11 +504,6 @@ lodash.get@4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
-
-lodash@3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-  integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
 lodash@^4.17.10, lodash@^4.17.11:
   version "4.17.11"
