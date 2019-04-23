@@ -13,11 +13,10 @@ const DEFAULT_POOL_SIZE = 20;
 
 require('mongoose-schema-extend');
 
-let createdModels = {};
-
 class DB {
     constructor() {
         console.log('connecting to Mongo databases...');
+        this.createdModels = {};
 
         Promise.promisifyAll(mongoose);
         mongoose.Promise = Promise;
@@ -34,10 +33,22 @@ class DB {
     }
 
     get modelsMap() {
-        return createdModels;
+        return this.createdModels;
     }
 
-    setupConnection(mongoUri, name = 'connection', options = {}) {
+    setDebug(value) {
+        mongoose.set('debug', value || false);
+        return this;
+    };
+
+    /**
+     *
+     * @param mongoUri
+     * @param {String} [name]: Logical name of the connection. Defaults to "main".
+     * @param options
+     * @return {Connection}
+     */
+    setupConnection(mongoUri, name = 'main', options = {}) {
         let poolSize = process.env.POOL_SIZE
             ? parseInt(process.env.POOL_SIZE)
             : DEFAULT_POOL_SIZE;
@@ -49,6 +60,13 @@ class DB {
 
         let connection = mongoose.createConnection(mongoUri, options);
         this[name] = connection;
+        this.createdModels[name] = {};
+
+        if (!this.main) {
+            this.main = connection;
+            this.createdModels.main = {};
+        }
+
         let displayName = name ? name + ' ' : '';
 
         connection.on('error', function (error) {
@@ -76,11 +94,12 @@ class DB {
      * @param {String} modelName - The name of the model. It is the base for the table name.
      * @param {mongoose.Schema} modelSchema - The mongoose schema instance created to define the model.
      * @param {Object} [options] - Options to define automatically supported plugins.
+     * @param {String} [dbName]: Logical name of the connection. Defaults to "main".
      * @param {Boolean|Object} [options.timestamp] - Add date field for "created" and "lastUpdated",
      * that are set automatically according to their names.
      * @param {Boolean|Object} [options.ttl] - Add automatic "expiresAt" field, to include expiration time for the documents.
      */
-    createModel(connection, modelName, modelSchema, options = {}) {
+    createModel(connection, modelName, modelSchema, options = {}, dbName = 'main') {
         debug(`creating model "${modelName}" on connection ${connection.name}`);
 
         _.forEach(this.plugins, (plugin, key) => {
@@ -98,17 +117,21 @@ class DB {
         Promise.promisifyAll(model);
         Promise.promisifyAll(model.prototype);
 
-        createdModels[modelName] = model;
+        this.createdModels[dbName][modelName] = model;
 
         return model;
     }
 
-    getChildModels(parentModel) {
-        return new ChildModels(createdModels, parentModel).children;
+    createModelOn(modelName, modelSchema, options = {}, dbName = 'main'){
+        return this.createModel(this[dbName], modelName, modelSchema, options, dbName);
     }
 
-    createChildModelDirectory(parentModel, mapModelToKey) {
-        return new ChildModelDirectory(this.getChildModels(parentModel), mapModelToKey)
+    getChildModels(parentModel, dbName = 'main') {
+        return new ChildModels(this.createdModels[dbName], parentModel).children;
+    }
+
+    createChildModelDirectory(parentModel, mapModelToKey, dbName = 'main') {
+        return new ChildModelDirectory(this.getChildModels(parentModel, dbName), mapModelToKey)
     }
 
     getSchemaDescription(model, format, updateParamKeys) {
@@ -120,9 +143,27 @@ class DB {
         return schemaDescription;
     }
 
+    limitDataToSchema(model, data){
+        let schema = this.getSchemaDescription(model, { updateParamKeys: '$writable' });
+        let limited = _(data).pickBy((value, key) => isInSchema(schema, key)).mapValues((value, key, obj) => {
+            if(_.isObject(value)) {
+                let subSchema = schema[key];
+                if(subSchema){
+                    return this.limitDataToSchema(subSchema, value);
+                }
+            }
+            return value;
+        }).value();
+        return limited;
+    }
+
     use(key, plugin) {
         this.plugins[key] = plugin;
     }
+}
+
+function isInSchema(schema, key){
+    return !!schema[key];
 }
 
 module.exports = new DB();
