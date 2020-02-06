@@ -110,7 +110,8 @@ class DB {
         });
 
         let model;
-        if (options.inherit && options.inherit.from)
+        const isInherit = (options.inherit && options.inherit.from)? true : false;
+        if (isInherit)
             model = options.inherit.from.discriminator(modelName, modelSchema, options.inherit.discriminator);
         else
             model = connection.model(modelName, modelSchema);
@@ -119,6 +120,7 @@ class DB {
         Promise.promisifyAll(model);
         Promise.promisifyAll(model.prototype);
 
+        console.log(`mongoose options.inherit:${isInherit} createModel: createdModels[${dbName}][${modelName}] = ${JSON.stringify(_.pick(model, 'modelName', 'collection.collectionName'))}`)
         this.createdModels[dbName][modelName] = model;
 
         return model;
