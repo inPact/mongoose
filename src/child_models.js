@@ -12,13 +12,15 @@ class ChildModels {
         const models = _.values(createdModels);
         models.forEach(m => {
             try{
-                if ((m && m.collection) &&
+                if ( (!_.isUndefined(m) && !_.isUndefined(m.collection)) &&
                     (m.collection.name === parentModel.collection.name) &&
                     (m.modelName !== parentModel.modelName)) {
                     this._children.push(m);
                 }
             }catch(e){
-                console.log(e)
+                console.log(JSON.stringify(m))                
+                console.log(JSON.stringify(models))
+                // console.log(e)
             }
         });
     }
