@@ -9,11 +9,16 @@ class ChildModels {
      */
     constructor(createdModels, parentModel){
         this._children = [];
-        let models = _.values(createdModels);
+        const models = _.values(createdModels);
         models.forEach(m => {
-            if ((m.collection.name === parentModel.collection.name) &&
-                (m.modelName !== parentModel.modelName)) {
-                this._children.push(m);
+            try{
+                if ((m && m.collection) &&
+                    (m.collection.name === parentModel.collection.name) &&
+                    (m.modelName !== parentModel.modelName)) {
+                    this._children.push(m);
+                }
+            }catch(e){
+                console.log(e)
             }
         });
     }

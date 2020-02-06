@@ -48,7 +48,7 @@ class DB {
      * @param options
      * @return {Connection}
      */
-    setupConnection(mongoUri, name = 'main', options = {}) {
+    setupConnection(mongoUri, name = 'main', options) {
         let poolSize = process.env.POOL_SIZE
             ? parseInt(process.env.POOL_SIZE)
             : DEFAULT_POOL_SIZE;
@@ -70,19 +70,19 @@ class DB {
         let displayName = name ? name + ' ' : '';
 
         connection.on('error', function (error) {
-            logger.error(chalk.bold.red(`Failed to connect to ${displayName}DB`, error));
+            logger.error(chalk.bold.red(`Failed to connect to ${displayName}DB at: ${mongoUri}`, error));
         });
 
         connection.on('open', function () {
-            logger.info(`Connected to ${displayName}DB at: ` + mongoUri);
+            logger.info(chalk.bold.green(`Connected to ${displayName}DB at: ${mongoUri}`));
         });
 
         connection.on('opening', function () {
-            logger.info(`reconnecting to ${displayName}DB at: ${mongoUri}. Ready-state: ${connection.readyState}`);
+            logger.info(chalk.bold.green(`reconnecting to ${displayName}DB at: ${mongoUri}. Ready-state: ${connection.readyState}`));
         });
 
         connection.on('close', function () {
-            logger.warn(chalk.bold.yellow(`Disconnected from ${displayName}DB: ` + mongoUri));
+            logger.warn(chalk.bold.yellow(`Disconnected from ${displayName}DB at: ${mongoUri}`));
         });
 
         return connection;
