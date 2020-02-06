@@ -10,6 +10,7 @@ class ChildModels {
     constructor(createdModels, parentModel){
         this._children = [];
         const models = _.values(createdModels);
+        let printed = false;
         models.forEach(m => {
             try{
                 if ( (!_.isUndefined(m) && !_.isUndefined(m.collection)) &&
@@ -20,7 +21,7 @@ class ChildModels {
             }catch(e){
                 console.log(JSON.stringify(m))                
                 console.log(JSON.stringify(models))
-                // console.log(e)
+                throw e;
             }
         });
     }
