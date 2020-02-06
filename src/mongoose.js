@@ -55,7 +55,9 @@ class DB {
 
         options = options || {
             server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
-            replset: { poolSize: DEFAULT_POOL_SIZE }
+            replset: { poolSize: DEFAULT_POOL_SIZE },
+            useNewUrlParser: true,
+            connectTimeoutMS: 60000
         };
 
         let connection = mongoose.createConnection(mongoUri, options);
