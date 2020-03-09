@@ -4,7 +4,7 @@
     "chalk": "^2.4.2",
     "debug": "^4.1.1",
     "lodash": "^4.17.11",
-    "mongoose": "5.3.1",
+    "mongoose": "5.7.5",
     "mongoose-schema-extend": "git+https://github.com/kennylmay/mongoose-schema-extend.git#0f3c73eb5d4cd6b8469c8060f8b23a984751cf09",
     "mongoose-times": "0.1.0",
     "ms": "^2.1.1",
