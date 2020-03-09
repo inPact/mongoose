@@ -1,4 +1,4 @@
-const _ = require('@tabit/utils').moredash;
+const _ = require('lodash');
 const logger = require('winston');
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
@@ -37,15 +37,26 @@ class DB {
         return createdModels;
     }
 
+    /**
+     *
+     * @param mongoUri
+     * @param name
+     * @param [options] {Object} - connection options: merged with default options, which are:
+     * {
+            server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
+            replset: { poolSize: DEFAULT_POOL_SIZE }
+       }
+     * @returns {*}
+     */
     setupConnection(mongoUri, name = 'connection', options = {}) {
         let poolSize = process.env.POOL_SIZE
             ? parseInt(process.env.POOL_SIZE)
             : DEFAULT_POOL_SIZE;
 
-        options = options || {
+        options = _.merge({
             server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
             replset: { poolSize: DEFAULT_POOL_SIZE }
-        };
+        }, options);
 
         let connection = mongoose.createConnection(mongoUri, options);
         this[name] = connection;
