@@ -49,11 +49,11 @@ class DB {
      * @returns {*}
      */
     setupConnection(mongoUri, name = 'connection', options = {}) {
-        let poolSize = _.isNumber(process.env.POOL_SIZE)
+        let poolSize = process.env.POOL_SIZE
             ? parseInt(process.env.POOL_SIZE)
             : DEFAULT_POOL_SIZE;
 
-        let replsetPoolSize = _.isNumber(process.env.REPL_POOL_SIZE)
+        let replsetPoolSize = process.env.REPL_POOL_SIZE
             ? parseInt(process.env.REPL_POOL_SIZE)
             : DEFAULT_POOL_SIZE;
 
