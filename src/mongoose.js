@@ -49,13 +49,17 @@ class DB {
      * @returns {*}
      */
     setupConnection(mongoUri, name = 'connection', options = {}) {
-        let poolSize = process.env.POOL_SIZE
+        let poolSize = _.isNumber(process.env.POOL_SIZE)
             ? parseInt(process.env.POOL_SIZE)
             : DEFAULT_POOL_SIZE;
 
+        let replsetPoolSize = _.isNumber(process.env.REPL_POOL_SIZE)
+            ? parseInt(process.env.REPL_POOL_SIZE)
+            : DEFAULT_POOL_SIZE;
+
         options = _.merge({
-            server: { poolSize: poolSize, reconnectTries: Number.MAX_VALUE },
-            replset: { poolSize: DEFAULT_POOL_SIZE }
+            server: { poolSize, reconnectTries: Number.MAX_VALUE },
+            replset: { poolSize: replsetPoolSize }
         }, options);
 
         let connection = mongoose.createConnection(mongoUri, options);
