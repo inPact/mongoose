@@ -11,7 +11,7 @@ const SchemaDescriptionBuilder = require('./schema_decriptor_builder');
 
 const DEFAULT_POOL_SIZE = 20;
 
-require('mongoose-schema-extend');
+require('./schema_extend');
 
 let createdModels = {};
 

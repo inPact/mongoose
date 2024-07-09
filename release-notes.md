@@ -1,5 +1,8 @@
 # ros release notes
 
+## 2.0.1
+* get rid of mongoose_schema_extend
+
 ## 2.0.0
 * upgrade mongoose to 5.10.4
 
